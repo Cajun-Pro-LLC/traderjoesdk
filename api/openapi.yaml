@@ -1259,11 +1259,24 @@ components:
       type: string
     ChainParam:
       description: An enumeration.
-      oneOf:
-      - $ref: '#/components/schemas/Chain'
-      - $ref: '#/components/schemas/AllParam'
+      enum:
+      - all
+      - avalanche
+      - arbitrum
+      - binance
+      - spruce
+      - ethereum
+      - mantle
       title: ChainParam
       type: string
+      x-enum-varnames:
+      - CHAIN_ALL
+      - CHAIN_AVALANCHE
+      - CHAIN_ARBITRUM
+      - CHAIN_BINANCE
+      - CHAIN_SPRUCE
+      - CHAIN_ETHEREUM
+      - CHAIN_MANTLE
     ClaimableReward:
       example:
         market: market
@@ -2154,19 +2167,16 @@ components:
       - volumeTradedUsd
       title: HistoricalLpFeesEarned
       type: object
-    LeaderboardFeesSortType:
+    LeaderboardSortType:
       description: An enumeration.
       enum:
       - fees
-      title: Fees
-      type: string
-    LeaderboardSortType:
-      description: An enumeration.
-      oneOf:
-      - $ref: '#/components/schemas/VolumeParam'
-      - $ref: '#/components/schemas/LeaderboardFeesSortType'
+      - volume
       title: LeaderboardSortType
       type: string
+      x-enum-varnames:
+      - leaderboard_fees
+      - leaderboard_volume
     PairStatus:
       description: An enumeration.
       enum:
@@ -2174,25 +2184,30 @@ components:
       - old
       title: PairStatus
       type: string
-    PoolSortParam:
+    PoolSortType:
       description: An enumeration.
       enum:
       - liquidity
       - name
-      title: PoolSortParam
-      type: string
-    PoolSortType:
-      description: An enumeration.
-      oneOf:
-      - $ref: '#/components/schemas/PoolSortParam'
-      - $ref: '#/components/schemas/VolumeParam'
+      - volume
       title: PoolSortType
+      type: string
+      x-enum-varnames:
+      - pool_sort_liquidity
+      - pool_sort_name
+      - pool_sort_volume
     QueryStatus:
       description: An enumeration.
-      oneOf:
-      - $ref: '#/components/schemas/PairStatus'
-      - $ref: '#/components/schemas/AllParam'
+      enum:
+      - all
+      - main
+      - old
       title: QueryStatus
+      type: string
+      x-enum-varnames:
+      - QUERY_STATUS_ALL
+      - QUERY_STATUS_MAIN
+      - QUERY_STATUS_OLD
     TokenWrapper:
       example:
         symbol: symbol
@@ -2584,13 +2599,24 @@ components:
       - v2.2
       title: PairVersion
       type: string
+      x-enum-varnames:
+      - V2_0
+      - V2_1
+      - V2_2
     PairVersionParam:
       description: An enumeration.
-      oneOf:
-      - $ref: '#/components/schemas/PairVersion'
-      - $ref: '#/components/schemas/AllParam'
+      enum:
+      - all
+      - v2.0
+      - v2.1
+      - v2.2
       title: PairVersion
       type: string
+      x-enum-varnames:
+      - PARAM_ALL
+      - PARAM_V2_0
+      - PARAM_V2_1
+      - PARAM_V2_2
     Location_inner:
       anyOf:
       - type: string

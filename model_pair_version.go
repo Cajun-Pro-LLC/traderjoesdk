@@ -21,9 +21,9 @@ type PairVersion string
 
 // List of PairVersion
 const (
-	_0 PairVersion = "v2.0"
-	_1 PairVersion = "v2.1"
-	_2 PairVersion = "v2.2"
+	V2_0 PairVersion = "v2.0"
+	V2_1 PairVersion = "v2.1"
+	V2_2 PairVersion = "v2.2"
 )
 
 // All allowed values of PairVersion enum

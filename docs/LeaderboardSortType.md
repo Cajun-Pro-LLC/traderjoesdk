@@ -1,28 +1,11 @@
 # LeaderboardSortType
 
-## Properties
+## Enum
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
 
-## Methods
+* `leaderboard_fees` (value: `"fees"`)
 
-### NewLeaderboardSortType
-
-`func NewLeaderboardSortType() *LeaderboardSortType`
-
-NewLeaderboardSortType instantiates a new LeaderboardSortType object
-This constructor will assign default values to properties that have it defined,
-and makes sure properties required by API are set, but the set of arguments
-will change when the set of required properties is changed
-
-### NewLeaderboardSortTypeWithDefaults
-
-`func NewLeaderboardSortTypeWithDefaults() *LeaderboardSortType`
-
-NewLeaderboardSortTypeWithDefaults instantiates a new LeaderboardSortType object
-This constructor will only assign default values to properties that have it defined,
-but it doesn't guarantee that properties required by API are set
+* `leaderboard_volume` (value: `"volume"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

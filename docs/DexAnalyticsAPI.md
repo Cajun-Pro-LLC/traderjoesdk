@@ -27,7 +27,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	startTime := int32(56) // int32 | 
 	endTime := int32(56) // int32 |  (optional)
 
@@ -49,7 +49,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 
 ### Other Parameters
 

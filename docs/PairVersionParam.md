@@ -1,28 +1,15 @@
 # PairVersionParam
 
-## Properties
+## Enum
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
 
-## Methods
+* `PARAM_ALL` (value: `"all"`)
 
-### NewPairVersionParam
+* `PARAM_V2_0` (value: `"v2.0"`)
 
-`func NewPairVersionParam() *PairVersionParam`
+* `PARAM_V2_1` (value: `"v2.1"`)
 
-NewPairVersionParam instantiates a new PairVersionParam object
-This constructor will assign default values to properties that have it defined,
-and makes sure properties required by API are set, but the set of arguments
-will change when the set of required properties is changed
-
-### NewPairVersionParamWithDefaults
-
-`func NewPairVersionParamWithDefaults() *PairVersionParam`
-
-NewPairVersionParamWithDefaults instantiates a new PairVersionParam object
-This constructor will only assign default values to properties that have it defined,
-but it doesn't guarantee that properties required by API are set
+* `PARAM_V2_2` (value: `"v2.2"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

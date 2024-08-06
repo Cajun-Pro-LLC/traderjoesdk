@@ -326,7 +326,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	userAddress := "userAddress_example" // string | 
 	poolAddress := "poolAddress_example" // string | 
 
@@ -348,7 +348,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 **userAddress** | **string** |  | 
 **poolAddress** | **string** |  | 
 

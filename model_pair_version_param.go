@@ -14,108 +14,68 @@ package traderjoesdk
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/validator.v2"
 )
 
-// PairVersionParam - An enumeration.
-type PairVersionParam struct {
-	AllParam    *AllParam
-	PairVersion *PairVersion
+// PairVersionParam An enumeration.
+type PairVersionParam string
+
+// List of PairVersionParam
+const (
+	PARAM_ALL  PairVersionParam = "all"
+	PARAM_V2_0 PairVersionParam = "v2.0"
+	PARAM_V2_1 PairVersionParam = "v2.1"
+	PARAM_V2_2 PairVersionParam = "v2.2"
+)
+
+// All allowed values of PairVersionParam enum
+var AllowedPairVersionParamEnumValues = []PairVersionParam{
+	"all",
+	"v2.0",
+	"v2.1",
+	"v2.2",
 }
 
-// AllParamAsPairVersionParam is a convenience function that returns AllParam wrapped in PairVersionParam
-func AllParamAsPairVersionParam(v *AllParam) PairVersionParam {
-	return PairVersionParam{
-		AllParam: v,
+func (v *PairVersionParam) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
 	}
-}
-
-// PairVersionAsPairVersionParam is a convenience function that returns PairVersion wrapped in PairVersionParam
-func PairVersionAsPairVersionParam(v *PairVersion) PairVersionParam {
-	return PairVersionParam{
-		PairVersion: v,
-	}
-}
-
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *PairVersionParam) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into AllParam
-	err = newStrictDecoder(data).Decode(&dst.AllParam)
-	if err == nil {
-		jsonAllParam, _ := json.Marshal(dst.AllParam)
-		if string(jsonAllParam) == "{}" { // empty struct
-			dst.AllParam = nil
-		} else {
-			if err = validator.Validate(dst.AllParam); err != nil {
-				dst.AllParam = nil
-			} else {
-				match++
-			}
+	enumTypeValue := PairVersionParam(value)
+	for _, existing := range AllowedPairVersionParamEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
 		}
-	} else {
-		dst.AllParam = nil
 	}
 
-	// try to unmarshal data into PairVersion
-	err = newStrictDecoder(data).Decode(&dst.PairVersion)
-	if err == nil {
-		jsonPairVersion, _ := json.Marshal(dst.PairVersion)
-		if string(jsonPairVersion) == "{}" { // empty struct
-			dst.PairVersion = nil
-		} else {
-			if err = validator.Validate(dst.PairVersion); err != nil {
-				dst.PairVersion = nil
-			} else {
-				match++
-			}
+	return fmt.Errorf("%+v is not a valid PairVersionParam", value)
+}
+
+// NewPairVersionParamFromValue returns a pointer to a valid PairVersionParam
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewPairVersionParamFromValue(v string) (*PairVersionParam, error) {
+	ev := PairVersionParam(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for PairVersionParam: valid values are %v", v, AllowedPairVersionParamEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v PairVersionParam) IsValid() bool {
+	for _, existing := range AllowedPairVersionParamEnumValues {
+		if existing == v {
+			return true
 		}
-	} else {
-		dst.PairVersion = nil
 	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.AllParam = nil
-		dst.PairVersion = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(PairVersionParam)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(PairVersionParam)")
-	}
+	return false
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src PairVersionParam) MarshalJSON() ([]byte, error) {
-	if src.AllParam != nil {
-		return json.Marshal(&src.AllParam)
-	}
-
-	if src.PairVersion != nil {
-		return json.Marshal(&src.PairVersion)
-	}
-
-	return nil, nil // no data in oneOf schemas
-}
-
-// Get the actual instance
-func (obj *PairVersionParam) GetActualInstance() interface{} {
-	if obj == nil {
-		return nil
-	}
-	if obj.AllParam != nil {
-		return obj.AllParam
-	}
-
-	if obj.PairVersion != nil {
-		return obj.PairVersion
-	}
-
-	// all schemas are nil
-	return nil
+// Ptr returns reference to PairVersionParam value
+func (v PairVersionParam) Ptr() *PairVersionParam {
+	return &v
 }
 
 type NullablePairVersionParam struct {

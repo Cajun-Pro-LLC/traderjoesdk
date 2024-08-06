@@ -14,108 +14,66 @@ package traderjoesdk
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/validator.v2"
 )
 
-// QueryStatus - An enumeration.
-type QueryStatus struct {
-	AllParam   *AllParam
-	PairStatus *PairStatus
+// QueryStatus An enumeration.
+type QueryStatus string
+
+// List of QueryStatus
+const (
+	QUERY_STATUS_ALL  QueryStatus = "all"
+	QUERY_STATUS_MAIN QueryStatus = "main"
+	QUERY_STATUS_OLD  QueryStatus = "old"
+)
+
+// All allowed values of QueryStatus enum
+var AllowedQueryStatusEnumValues = []QueryStatus{
+	"all",
+	"main",
+	"old",
 }
 
-// AllParamAsQueryStatus is a convenience function that returns AllParam wrapped in QueryStatus
-func AllParamAsQueryStatus(v *AllParam) QueryStatus {
-	return QueryStatus{
-		AllParam: v,
+func (v *QueryStatus) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
 	}
-}
-
-// PairStatusAsQueryStatus is a convenience function that returns PairStatus wrapped in QueryStatus
-func PairStatusAsQueryStatus(v *PairStatus) QueryStatus {
-	return QueryStatus{
-		PairStatus: v,
-	}
-}
-
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *QueryStatus) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into AllParam
-	err = newStrictDecoder(data).Decode(&dst.AllParam)
-	if err == nil {
-		jsonAllParam, _ := json.Marshal(dst.AllParam)
-		if string(jsonAllParam) == "{}" { // empty struct
-			dst.AllParam = nil
-		} else {
-			if err = validator.Validate(dst.AllParam); err != nil {
-				dst.AllParam = nil
-			} else {
-				match++
-			}
+	enumTypeValue := QueryStatus(value)
+	for _, existing := range AllowedQueryStatusEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
 		}
-	} else {
-		dst.AllParam = nil
 	}
 
-	// try to unmarshal data into PairStatus
-	err = newStrictDecoder(data).Decode(&dst.PairStatus)
-	if err == nil {
-		jsonPairStatus, _ := json.Marshal(dst.PairStatus)
-		if string(jsonPairStatus) == "{}" { // empty struct
-			dst.PairStatus = nil
-		} else {
-			if err = validator.Validate(dst.PairStatus); err != nil {
-				dst.PairStatus = nil
-			} else {
-				match++
-			}
+	return fmt.Errorf("%+v is not a valid QueryStatus", value)
+}
+
+// NewQueryStatusFromValue returns a pointer to a valid QueryStatus
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewQueryStatusFromValue(v string) (*QueryStatus, error) {
+	ev := QueryStatus(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for QueryStatus: valid values are %v", v, AllowedQueryStatusEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v QueryStatus) IsValid() bool {
+	for _, existing := range AllowedQueryStatusEnumValues {
+		if existing == v {
+			return true
 		}
-	} else {
-		dst.PairStatus = nil
 	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.AllParam = nil
-		dst.PairStatus = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(QueryStatus)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(QueryStatus)")
-	}
+	return false
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src QueryStatus) MarshalJSON() ([]byte, error) {
-	if src.AllParam != nil {
-		return json.Marshal(&src.AllParam)
-	}
-
-	if src.PairStatus != nil {
-		return json.Marshal(&src.PairStatus)
-	}
-
-	return nil, nil // no data in oneOf schemas
-}
-
-// Get the actual instance
-func (obj *QueryStatus) GetActualInstance() interface{} {
-	if obj == nil {
-		return nil
-	}
-	if obj.AllParam != nil {
-		return obj.AllParam
-	}
-
-	if obj.PairStatus != nil {
-		return obj.PairStatus
-	}
-
-	// all schemas are nil
-	return nil
+// Ptr returns reference to QueryStatus value
+func (v QueryStatus) Ptr() *QueryStatus {
+	return &v
 }
 
 type NullableQueryStatus struct {

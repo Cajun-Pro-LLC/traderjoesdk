@@ -14,108 +14,66 @@ package traderjoesdk
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/validator.v2"
 )
 
-// PoolSortType - An enumeration.
-type PoolSortType struct {
-	PoolSortParam *PoolSortParam
-	VolumeParam   *VolumeParam
+// PoolSortType An enumeration.
+type PoolSortType string
+
+// List of PoolSortType
+const (
+	pool_sort_liquidity PoolSortType = "liquidity"
+	pool_sort_name      PoolSortType = "name"
+	pool_sort_volume    PoolSortType = "volume"
+)
+
+// All allowed values of PoolSortType enum
+var AllowedPoolSortTypeEnumValues = []PoolSortType{
+	"liquidity",
+	"name",
+	"volume",
 }
 
-// PoolSortParamAsPoolSortType is a convenience function that returns PoolSortParam wrapped in PoolSortType
-func PoolSortParamAsPoolSortType(v *PoolSortParam) PoolSortType {
-	return PoolSortType{
-		PoolSortParam: v,
+func (v *PoolSortType) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
 	}
-}
-
-// VolumeParamAsPoolSortType is a convenience function that returns VolumeParam wrapped in PoolSortType
-func VolumeParamAsPoolSortType(v *VolumeParam) PoolSortType {
-	return PoolSortType{
-		VolumeParam: v,
-	}
-}
-
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *PoolSortType) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into PoolSortParam
-	err = newStrictDecoder(data).Decode(&dst.PoolSortParam)
-	if err == nil {
-		jsonPoolSortParam, _ := json.Marshal(dst.PoolSortParam)
-		if string(jsonPoolSortParam) == "{}" { // empty struct
-			dst.PoolSortParam = nil
-		} else {
-			if err = validator.Validate(dst.PoolSortParam); err != nil {
-				dst.PoolSortParam = nil
-			} else {
-				match++
-			}
+	enumTypeValue := PoolSortType(value)
+	for _, existing := range AllowedPoolSortTypeEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
 		}
-	} else {
-		dst.PoolSortParam = nil
 	}
 
-	// try to unmarshal data into VolumeParam
-	err = newStrictDecoder(data).Decode(&dst.VolumeParam)
-	if err == nil {
-		jsonVolumeParam, _ := json.Marshal(dst.VolumeParam)
-		if string(jsonVolumeParam) == "{}" { // empty struct
-			dst.VolumeParam = nil
-		} else {
-			if err = validator.Validate(dst.VolumeParam); err != nil {
-				dst.VolumeParam = nil
-			} else {
-				match++
-			}
+	return fmt.Errorf("%+v is not a valid PoolSortType", value)
+}
+
+// NewPoolSortTypeFromValue returns a pointer to a valid PoolSortType
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewPoolSortTypeFromValue(v string) (*PoolSortType, error) {
+	ev := PoolSortType(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for PoolSortType: valid values are %v", v, AllowedPoolSortTypeEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v PoolSortType) IsValid() bool {
+	for _, existing := range AllowedPoolSortTypeEnumValues {
+		if existing == v {
+			return true
 		}
-	} else {
-		dst.VolumeParam = nil
 	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.PoolSortParam = nil
-		dst.VolumeParam = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(PoolSortType)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(PoolSortType)")
-	}
+	return false
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src PoolSortType) MarshalJSON() ([]byte, error) {
-	if src.PoolSortParam != nil {
-		return json.Marshal(&src.PoolSortParam)
-	}
-
-	if src.VolumeParam != nil {
-		return json.Marshal(&src.VolumeParam)
-	}
-
-	return nil, nil // no data in oneOf schemas
-}
-
-// Get the actual instance
-func (obj *PoolSortType) GetActualInstance() interface{} {
-	if obj == nil {
-		return nil
-	}
-	if obj.PoolSortParam != nil {
-		return obj.PoolSortParam
-	}
-
-	if obj.VolumeParam != nil {
-		return obj.VolumeParam
-	}
-
-	// all schemas are nil
-	return nil
+// Ptr returns reference to PoolSortType value
+func (v PoolSortType) Ptr() *PoolSortType {
+	return &v
 }
 
 type NullablePoolSortType struct {

@@ -14,108 +14,64 @@ package traderjoesdk
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/validator.v2"
 )
 
-// LeaderboardSortType - An enumeration.
-type LeaderboardSortType struct {
-	LeaderboardFeesSortType *LeaderboardFeesSortType
-	VolumeParam             *VolumeParam
+// LeaderboardSortType An enumeration.
+type LeaderboardSortType string
+
+// List of LeaderboardSortType
+const (
+	leaderboard_fees   LeaderboardSortType = "fees"
+	leaderboard_volume LeaderboardSortType = "volume"
+)
+
+// All allowed values of LeaderboardSortType enum
+var AllowedLeaderboardSortTypeEnumValues = []LeaderboardSortType{
+	"fees",
+	"volume",
 }
 
-// LeaderboardFeesSortTypeAsLeaderboardSortType is a convenience function that returns LeaderboardFeesSortType wrapped in LeaderboardSortType
-func LeaderboardFeesSortTypeAsLeaderboardSortType(v *LeaderboardFeesSortType) LeaderboardSortType {
-	return LeaderboardSortType{
-		LeaderboardFeesSortType: v,
+func (v *LeaderboardSortType) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
 	}
-}
-
-// VolumeParamAsLeaderboardSortType is a convenience function that returns VolumeParam wrapped in LeaderboardSortType
-func VolumeParamAsLeaderboardSortType(v *VolumeParam) LeaderboardSortType {
-	return LeaderboardSortType{
-		VolumeParam: v,
-	}
-}
-
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *LeaderboardSortType) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into LeaderboardFeesSortType
-	err = newStrictDecoder(data).Decode(&dst.LeaderboardFeesSortType)
-	if err == nil {
-		jsonLeaderboardFeesSortType, _ := json.Marshal(dst.LeaderboardFeesSortType)
-		if string(jsonLeaderboardFeesSortType) == "{}" { // empty struct
-			dst.LeaderboardFeesSortType = nil
-		} else {
-			if err = validator.Validate(dst.LeaderboardFeesSortType); err != nil {
-				dst.LeaderboardFeesSortType = nil
-			} else {
-				match++
-			}
+	enumTypeValue := LeaderboardSortType(value)
+	for _, existing := range AllowedLeaderboardSortTypeEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
 		}
-	} else {
-		dst.LeaderboardFeesSortType = nil
 	}
 
-	// try to unmarshal data into VolumeParam
-	err = newStrictDecoder(data).Decode(&dst.VolumeParam)
-	if err == nil {
-		jsonVolumeParam, _ := json.Marshal(dst.VolumeParam)
-		if string(jsonVolumeParam) == "{}" { // empty struct
-			dst.VolumeParam = nil
-		} else {
-			if err = validator.Validate(dst.VolumeParam); err != nil {
-				dst.VolumeParam = nil
-			} else {
-				match++
-			}
+	return fmt.Errorf("%+v is not a valid LeaderboardSortType", value)
+}
+
+// NewLeaderboardSortTypeFromValue returns a pointer to a valid LeaderboardSortType
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewLeaderboardSortTypeFromValue(v string) (*LeaderboardSortType, error) {
+	ev := LeaderboardSortType(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for LeaderboardSortType: valid values are %v", v, AllowedLeaderboardSortTypeEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v LeaderboardSortType) IsValid() bool {
+	for _, existing := range AllowedLeaderboardSortTypeEnumValues {
+		if existing == v {
+			return true
 		}
-	} else {
-		dst.VolumeParam = nil
 	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.LeaderboardFeesSortType = nil
-		dst.VolumeParam = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(LeaderboardSortType)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(LeaderboardSortType)")
-	}
+	return false
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src LeaderboardSortType) MarshalJSON() ([]byte, error) {
-	if src.LeaderboardFeesSortType != nil {
-		return json.Marshal(&src.LeaderboardFeesSortType)
-	}
-
-	if src.VolumeParam != nil {
-		return json.Marshal(&src.VolumeParam)
-	}
-
-	return nil, nil // no data in oneOf schemas
-}
-
-// Get the actual instance
-func (obj *LeaderboardSortType) GetActualInstance() interface{} {
-	if obj == nil {
-		return nil
-	}
-	if obj.LeaderboardFeesSortType != nil {
-		return obj.LeaderboardFeesSortType
-	}
-
-	if obj.VolumeParam != nil {
-		return obj.VolumeParam
-	}
-
-	// all schemas are nil
-	return nil
+// Ptr returns reference to LeaderboardSortType value
+func (v LeaderboardSortType) Ptr() *LeaderboardSortType {
+	return &v
 }
 
 type NullableLeaderboardSortType struct {

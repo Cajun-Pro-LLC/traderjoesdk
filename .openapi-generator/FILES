@@ -35,13 +35,11 @@ docs/GetVaultToken.md
 docs/GetVaultWithdrawal.md
 docs/HTTPValidationError.md
 docs/HistoricalLpFeesEarned.md
-docs/LeaderboardFeesSortType.md
 docs/LeaderboardSortType.md
 docs/LocationInner.md
 docs/PairStatus.md
 docs/PairVersion.md
 docs/PairVersionParam.md
-docs/PoolSortParam.md
 docs/PoolSortType.md
 docs/PoolsAPI.md
 docs/QueryStatus.md
@@ -82,13 +80,11 @@ model_get_vault_tvl.go
 model_get_vault_withdrawal.go
 model_historical_lp_fees_earned.go
 model_http_validation_error.go
-model_leaderboard_fees_sort_type.go
 model_leaderboard_sort_type.go
 model_location_inner.go
 model_pair_status.go
 model_pair_version.go
 model_pair_version_param.go
-model_pool_sort_param.go
 model_pool_sort_type.go
 model_query_status.go
 model_token_wrapper.go

@@ -14,108 +14,74 @@ package traderjoesdk
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/validator.v2"
 )
 
-// ChainParam - An enumeration.
-type ChainParam struct {
-	AllParam *AllParam
-	Chain    *Chain
+// ChainParam An enumeration.
+type ChainParam string
+
+// List of ChainParam
+const (
+	CHAIN_ALL       ChainParam = "all"
+	CHAIN_AVALANCHE ChainParam = "avalanche"
+	CHAIN_ARBITRUM  ChainParam = "arbitrum"
+	CHAIN_BINANCE   ChainParam = "binance"
+	CHAIN_SPRUCE    ChainParam = "spruce"
+	CHAIN_ETHEREUM  ChainParam = "ethereum"
+	CHAIN_MANTLE    ChainParam = "mantle"
+)
+
+// All allowed values of ChainParam enum
+var AllowedChainParamEnumValues = []ChainParam{
+	"all",
+	"avalanche",
+	"arbitrum",
+	"binance",
+	"spruce",
+	"ethereum",
+	"mantle",
 }
 
-// AllParamAsChainParam is a convenience function that returns AllParam wrapped in ChainParam
-func AllParamAsChainParam(v *AllParam) ChainParam {
-	return ChainParam{
-		AllParam: v,
+func (v *ChainParam) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
 	}
-}
-
-// ChainAsChainParam is a convenience function that returns Chain wrapped in ChainParam
-func ChainAsChainParam(v *Chain) ChainParam {
-	return ChainParam{
-		Chain: v,
-	}
-}
-
-// Unmarshal JSON data into one of the pointers in the struct
-func (dst *ChainParam) UnmarshalJSON(data []byte) error {
-	var err error
-	match := 0
-	// try to unmarshal data into AllParam
-	err = newStrictDecoder(data).Decode(&dst.AllParam)
-	if err == nil {
-		jsonAllParam, _ := json.Marshal(dst.AllParam)
-		if string(jsonAllParam) == "{}" { // empty struct
-			dst.AllParam = nil
-		} else {
-			if err = validator.Validate(dst.AllParam); err != nil {
-				dst.AllParam = nil
-			} else {
-				match++
-			}
+	enumTypeValue := ChainParam(value)
+	for _, existing := range AllowedChainParamEnumValues {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
 		}
-	} else {
-		dst.AllParam = nil
 	}
 
-	// try to unmarshal data into Chain
-	err = newStrictDecoder(data).Decode(&dst.Chain)
-	if err == nil {
-		jsonChain, _ := json.Marshal(dst.Chain)
-		if string(jsonChain) == "{}" { // empty struct
-			dst.Chain = nil
-		} else {
-			if err = validator.Validate(dst.Chain); err != nil {
-				dst.Chain = nil
-			} else {
-				match++
-			}
+	return fmt.Errorf("%+v is not a valid ChainParam", value)
+}
+
+// NewChainParamFromValue returns a pointer to a valid ChainParam
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func NewChainParamFromValue(v string) (*ChainParam, error) {
+	ev := ChainParam(v)
+	if ev.IsValid() {
+		return &ev, nil
+	} else {
+		return nil, fmt.Errorf("invalid value '%v' for ChainParam: valid values are %v", v, AllowedChainParamEnumValues)
+	}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v ChainParam) IsValid() bool {
+	for _, existing := range AllowedChainParamEnumValues {
+		if existing == v {
+			return true
 		}
-	} else {
-		dst.Chain = nil
 	}
-
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.AllParam = nil
-		dst.Chain = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(ChainParam)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(ChainParam)")
-	}
+	return false
 }
 
-// Marshal data from the first non-nil pointers in the struct to JSON
-func (src ChainParam) MarshalJSON() ([]byte, error) {
-	if src.AllParam != nil {
-		return json.Marshal(&src.AllParam)
-	}
-
-	if src.Chain != nil {
-		return json.Marshal(&src.Chain)
-	}
-
-	return nil, nil // no data in oneOf schemas
-}
-
-// Get the actual instance
-func (obj *ChainParam) GetActualInstance() interface{} {
-	if obj == nil {
-		return nil
-	}
-	if obj.AllParam != nil {
-		return obj.AllParam
-	}
-
-	if obj.Chain != nil {
-		return obj.Chain
-	}
-
-	// all schemas are nil
-	return nil
+// Ptr returns reference to ChainParam value
+func (v ChainParam) Ptr() *ChainParam {
+	return &v
 }
 
 type NullableChainParam struct {

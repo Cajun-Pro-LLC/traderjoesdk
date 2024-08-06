@@ -1,28 +1,21 @@
 # ChainParam
 
-## Properties
+## Enum
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
 
-## Methods
+* `CHAIN_ALL` (value: `"all"`)
 
-### NewChainParam
+* `CHAIN_AVALANCHE` (value: `"avalanche"`)
 
-`func NewChainParam() *ChainParam`
+* `CHAIN_ARBITRUM` (value: `"arbitrum"`)
 
-NewChainParam instantiates a new ChainParam object
-This constructor will assign default values to properties that have it defined,
-and makes sure properties required by API are set, but the set of arguments
-will change when the set of required properties is changed
+* `CHAIN_BINANCE` (value: `"binance"`)
 
-### NewChainParamWithDefaults
+* `CHAIN_SPRUCE` (value: `"spruce"`)
 
-`func NewChainParamWithDefaults() *ChainParam`
+* `CHAIN_ETHEREUM` (value: `"ethereum"`)
 
-NewChainParamWithDefaults instantiates a new ChainParam object
-This constructor will only assign default values to properties that have it defined,
-but it doesn't guarantee that properties required by API are set
+* `CHAIN_MANTLE` (value: `"mantle"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

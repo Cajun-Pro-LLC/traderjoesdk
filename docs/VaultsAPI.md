@@ -34,7 +34,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	vaultAddress := "vaultAddress_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
@@ -55,7 +55,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 **vaultAddress** | **string** |  | 
 
 ### Other Parameters
@@ -105,7 +105,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	vaultAddress := "vaultAddress_example" // string | 
 	pageSize := int32(56) // int32 |  (optional) (default to 20)
 	pageNum := int32(56) // int32 |  (optional) (default to 1)
@@ -128,7 +128,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 **vaultAddress** | **string** |  | 
 
 ### Other Parameters
@@ -255,7 +255,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	vaultAddress := "vaultAddress_example" // string | 
 	startTime := int32(56) // int32 | 
 	endTime := int32(56) // int32 |  (optional)
@@ -278,7 +278,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 **vaultAddress** | **string** |  | 
 
 ### Other Parameters
@@ -330,7 +330,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	userAddress := "userAddress_example" // string | 
 	pageSize := int32(56) // int32 |  (optional) (default to 20)
 	pageNum := int32(56) // int32 |  (optional) (default to 1)
@@ -353,7 +353,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 **userAddress** | **string** |  | 
 
 ### Other Parameters
@@ -405,7 +405,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	vaultAddress := "vaultAddress_example" // string | 
 	userAddress := "userAddress_example" // string | 
 	pageSize := int32(56) // int32 |  (optional) (default to 20)
@@ -429,7 +429,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 **vaultAddress** | **string** |  | 
 **userAddress** | **string** |  | 
 
@@ -483,7 +483,7 @@ import (
 )
 
 func main() {
-	chain := "chain_example" // ChainParam | 
+	chain := openapiclient.ChainParam("all") // ChainParam | 
 	pageSize := int32(56) // int32 |  (optional) (default to 20)
 	pageNum := int32(56) // int32 |  (optional) (default to 1)
 	userAddress := "userAddress_example" // string |  (optional)
@@ -506,7 +506,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**chain** | **ChainParam** |  | 
+**chain** | [**ChainParam**](.md) |  | 
 
 ### Other Parameters
 
