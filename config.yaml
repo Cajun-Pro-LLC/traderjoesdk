@@ -1,0 +1,18 @@
+
+apiPackage: traderjoesdk
+generatorName: go
+inputSpec: api/openapi.yaml
+verbose: false
+modelPackage: model
+artifactId: traderjoesdk
+invokerPackage: traderjoesdk
+artifactVersion: 1.0.0
+gitHost: github.com
+gitRepoId: traderjoesdk
+gitUserId: cajun-pro-llc
+additionalProperties:
+  packageName: traderjoesdk
+  packageVersion: 1.0.0
+  generateInterfaces: true
+  disallowAdditionalPropertiesIfNotPresent: false
+  useDefaultValuesForRequiredVars: true

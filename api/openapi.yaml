@@ -1,0 +1,2612 @@
+openapi: 3.0.2
+info:
+  contact:
+    email: public-api@traderjoexyz.com
+    name: Trader Joe Dex Public API
+    url: https://api.traderjoexyz.dev
+  description: "<p>Discover DeFi with Trader Joe, a leading decentralized exchange.\
+    \ Trade a wide variety of tokens, earn rewards, and engage in secure, peer-to-peer\
+    \ transactions. Trader Joe makes DeFi easy and accessible."
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: Trader Joe Dex API
+  version: 1.0.0
+servers:
+- url: https://api.traderjoexyz.dev
+security:
+- ApiKeyAuth: []
+tags:
+- name: Dex Analytics
+- name: Pools
+- name: Rewards
+- name: User
+- name: Vaults
+paths:
+  /v1/vaults:
+    get:
+      operationId: list_vaults_v1_vaults_get
+      parameters:
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetVault'
+                title: Response List Vaults V1 Vaults Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: List Vaults
+      tags:
+      - Vaults
+  /v1/vaults/{chain}:
+    get:
+      operationId: list_vaults_by_chain
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: userAddress
+        required: false
+        schema:
+          title: Useraddress
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetVault'
+                title: Response List Vaults By Chain V1 Vaults  Chain  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: List Vaults By Chain
+      tags:
+      - Vaults
+  /v1/vaults/{chain}/{vault_address}/share-price:
+    get:
+      operationId: get_vault_share_price
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: vault_address
+        required: true
+        schema:
+          title: Vault Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: fromTimestamp
+        required: true
+        schema:
+          title: Fromtimestamp
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: toTimestamp
+        required: false
+        schema:
+          title: Totimestamp
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/VaultSharePrice'
+                title: Response Get Vault Share Price V1 Vaults  Chain   Vault Address  Share
+                  Price Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Vault Share Price
+      tags:
+      - Vaults
+  /v1/vaults/{chain}/{vault_address}:
+    get:
+      operationId: get_vault
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: false
+        in: path
+        name: vault_address
+        required: true
+        schema:
+          title: Vault Address
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVault'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Vault
+      tags:
+      - Vaults
+  /v1/vaults/{chain}/{vault_address}/tvl-history:
+    get:
+      operationId: get_vault_tvl_history
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: false
+        in: path
+        name: vault_address
+        required: true
+        schema:
+          title: Vault Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: startTime
+        required: true
+        schema:
+          title: Starttime
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: endTime
+        required: false
+        schema:
+          title: Endtime
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetVaultTVL'
+                title: Response Get Vault Tvl History V1 Vaults  Chain   Vault Address  Tvl
+                  History Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Vault Tvl History
+      tags:
+      - Vaults
+  /v1/vaults/{chain}/{vault_address}/recent-activity:
+    get:
+      operationId: get_vault_recent_activity
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: false
+        in: path
+        name: vault_address
+        required: true
+        schema:
+          title: Vault Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetVaultActivity'
+                title: Response Get Vault Recent Activity V1 Vaults  Chain   Vault
+                  Address  Recent Activity Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Vault Recent Activity
+      tags:
+      - Vaults
+  /v1/vaults/{chain}/withdrawals/{user_address}:
+    get:
+      operationId: get_vault_withdrawals_by_user
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetVaultWithdrawal'
+                title: Response Get Vault Withdrawals By User V1 Vaults  Chain  Withdrawals  User
+                  Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Vault Withdrawals By User
+      tags:
+      - Vaults
+  /v1/vaults/{chain}/{vault_address}/withdrawals/{user_address}:
+    get:
+      operationId: get_vault_withdrawals_by_user_and_vault
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: false
+        in: path
+        name: vault_address
+        required: true
+        schema:
+          title: Vault Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetVaultWithdrawal'
+                title: Response Get Vault Withdrawals By User And Vault V1 Vaults  Chain   Vault
+                  Address  Withdrawals  User Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Vault Withdrawals By User And Vault
+      tags:
+      - Vaults
+  /v1/dex/analytics/{chain}:
+    get:
+      operationId: daily_dex_analytics
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: true
+        in: query
+        name: startTime
+        required: true
+        schema:
+          title: Starttime
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: endTime
+        required: false
+        schema:
+          title: Endtime
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DexAnalytics'
+                title: Response Daily Dex Analytics V1 Dex Analytics  Chain  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Daily Dex Analytics
+      tags:
+      - Dex Analytics
+  /v1/pools/{chain}:
+    get:
+      operationId: list_pools
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: orderBy
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/PoolSortType'
+          default: volume
+        style: form
+      - explode: true
+        in: query
+        name: filterBy
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/FilterType'
+          default: 1d
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/QueryStatus'
+          default: all
+        style: form
+      - explode: true
+        in: query
+        name: version
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/PairVersionParam'
+          default: all
+        style: form
+      - explode: true
+        in: query
+        name: excludeLowVolumePools
+        required: false
+        schema:
+          default: true
+          title: Excludelowvolumepools
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetPair'
+                title: Response List Pools V1 Pools  Chain  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: List Pools
+      tags:
+      - Pools
+  /v1/pools/{chain}/{address}:
+    get:
+      operationId: get_pool
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: address
+        required: true
+        schema:
+          title: Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: filterBy
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/FilterType'
+          default: 1d
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPair'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Pool
+      tags:
+      - Pools
+  /v1/pools/historical-liquidity-providers/{chain}/{address}:
+    get:
+      operationId: get_historical_liquidity_providers
+      parameters:
+      - explode: false
+        in: path
+        name: address
+        required: true
+        schema:
+          title: Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: startTime
+        required: true
+        schema:
+          title: Starttime
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: endTime
+        required: false
+        schema:
+          title: Endtime
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: orderBy
+        required: false
+        schema:
+          allOf:
+          - $ref: '#/components/schemas/LeaderboardSortType'
+          default: fees
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/HistoricalLpFeesEarned'
+                title: Response Get Historical Liquidity Providers V1 Pools Historical
+                  Liquidity Providers  Chain   Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Historical Liquidity Providers
+      tags:
+      - Pools
+  /v1/rewards/{chain}/{user_address}:
+    get:
+      operationId: get_proof
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: market
+        required: true
+        schema:
+          title: Market
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: epoch
+        required: true
+        schema:
+          title: Epoch
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: token
+        required: true
+        schema:
+          title: Token
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                title: Response Get Proof V1 Rewards  Chain   User Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Proof
+      tags:
+      - Rewards
+  /v1/rewards/batch-proof/{chain}/{user_address}:
+    post:
+      operationId: get_user_proofs
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetProofBatch'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  items:
+                    type: string
+                  type: array
+                title: Response Get User Proofs V1 Rewards Batch Proof  Chain   User
+                  Address  Post
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get User Proofs
+      tags:
+      - Rewards
+  /v1/rewards/history/{chain}/{user_address}:
+    get:
+      operationId: get_user_reward_history
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: market
+        required: true
+        schema:
+          title: Market
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetUserRewardHistoryResponse'
+                title: Response Get User Reward History V1 Rewards History  Chain   User
+                  Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get User Reward History
+      tags:
+      - Rewards
+  /v1/rewards/claimable/{chain}/{user_address}:
+    get:
+      operationId: get_user_claimable_rewards
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: market
+        required: true
+        schema:
+          title: Market
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ClaimableReward'
+                title: Response Get User Claimable Rewards V1 Rewards Claimable  Chain   User
+                  Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get User Claimable Rewards
+      tags:
+      - Rewards
+  /v1/user/bin-ids/{user_address}/{chain}/{pool_address}:
+    get:
+      operationId: user_current_bin_ids
+      parameters:
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: pool_address
+        required: true
+        schema:
+          title: Pool Address
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: integer
+                title: Response User Current Bin Ids V1 User Bin Ids  User Address   Chain   Pool
+                  Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: User Current Bin Ids
+      tags:
+      - User
+  /v1/user/pool-ids/{user_address}/{chain}:
+    get:
+      operationId: get_user_pool_ids
+      parameters:
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserPoolPosition'
+                title: Response Get User Pool Ids V1 User Pool Ids  User Address   Chain  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get User Pool Ids
+      tags:
+      - User
+  /v1/user/{chain}/{user_address}/farms:
+    get:
+      operationId: get_user_farm_positions
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GetUserFarmPosition'
+                title: Response Get User Farm Positions V1 User  Chain   User Address  Farms
+                  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get User Farm Positions
+      tags:
+      - User
+  /v1/user/{chain}/{user_address}/farms/{vault_id}:
+    get:
+      operationId: get_user_farm_position
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: vault_id
+        required: true
+        schema:
+          title: Vault Id
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserFarmPosition'
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get User Farm Position
+      tags:
+      - User
+  /v1/user/{chain}/history/{user_address}/{pool_address}:
+    get:
+      operationId: user_historical_position
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/Chain'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: pool_address
+        required: true
+        schema:
+          title: Pool Address
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          maximum: 100.0
+          title: Pagesize
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageNum
+        required: false
+        schema:
+          default: 1
+          title: Pagenum
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: startTime
+        required: true
+        schema:
+          title: Starttime
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: endTime
+        required: false
+        schema:
+          title: Endtime
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserBinHistory'
+                title: Response User Historical Position V1 User  Chain  History  User
+                  Address   Pool Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: User Historical Position
+      tags:
+      - User
+  /v1/user/fees-earned/{chain}/{user_address}/{pool_address}:
+    get:
+      operationId: user_earned_fees_per_bin
+      parameters:
+      - explode: false
+        in: path
+        name: chain
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChainParam'
+        style: simple
+      - explode: false
+        in: path
+        name: user_address
+        required: true
+        schema:
+          title: User Address
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: pool_address
+        required: true
+        schema:
+          title: Pool Address
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserFeesEarnedPerBin'
+                title: Response User Earned Fees Per Bin V1 User Fees Earned  Chain   User
+                  Address   Pool Address  Get
+                type: array
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: User Earned Fees Per Bin
+      tags:
+      - User
+  /health-check:
+    get:
+      operationId: health_check
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Health Check
+components:
+  schemas:
+    Chain:
+      description: An enumeration.
+      enum:
+      - avalanche
+      - arbitrum
+      - binance
+      - spruce
+      - ethereum
+      - mantle
+      title: Chain
+      type: string
+    ChainParam:
+      description: An enumeration.
+      oneOf:
+      - $ref: '#/components/schemas/Chain'
+      - $ref: '#/components/schemas/AllParam'
+      title: ChainParam
+      type: string
+    ClaimableReward:
+      example:
+        market: market
+        epoch: 0
+        claimableRewards:
+        - tokenAddress: tokenAddress
+          amount: amount
+        - tokenAddress: tokenAddress
+          amount: amount
+      properties:
+        market:
+          title: Market
+          type: string
+        epoch:
+          title: Epoch
+          type: integer
+        claimableRewards:
+          items:
+            $ref: '#/components/schemas/GetLBPairReward'
+          title: Claimablerewards
+          type: array
+      required:
+      - claimableRewards
+      - epoch
+      - market
+      title: ClaimableReward
+      type: object
+    DexAnalytics:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        feesUsd: 2.3021358869347655
+        reserveNative: 1.4658129805029452
+        protocolFeesNative: 3.616076749251911
+        volumeUsd: 5.962133916683182
+        feesNative: 7.061401241503109
+        volumeNative: 5.637376656633329
+        reserveUsd: 6.027456183070403
+        timestamp: 0
+        protocolFeesUsd: 9.301444243932576
+      properties:
+        date:
+          format: date-time
+          title: Date
+          type: string
+        timestamp:
+          title: Timestamp
+          type: integer
+        reserveUsd:
+          title: Reserveusd
+          type: number
+        reserveNative:
+          title: Reservenative
+          type: number
+        volumeUsd:
+          title: Volumeusd
+          type: number
+        volumeNative:
+          title: Volumenative
+          type: number
+        feesUsd:
+          title: Feesusd
+          type: number
+        feesNative:
+          title: Feesnative
+          type: number
+        protocolFeesUsd:
+          title: Protocolfeesusd
+          type: number
+        protocolFeesNative:
+          title: Protocolfeesnative
+          type: number
+      required:
+      - date
+      - feesNative
+      - feesUsd
+      - protocolFeesNative
+      - protocolFeesUsd
+      - reserveNative
+      - reserveUsd
+      - timestamp
+      - volumeNative
+      - volumeUsd
+      title: DexAnalytics
+      type: object
+    FilterType:
+      description: An enumeration.
+      enum:
+      - 1h
+      - 1d
+      - 7d
+      - 14d
+      - 30d
+      title: FilterType
+      type: string
+    GetFarm:
+      example:
+        reward:
+          symbol: symbol
+          decimals: 9
+          name: name
+          id: id
+        rewarder:
+          rewarderTokenPerSec: 8.762042012749001
+          rewarderTokenSymbol: rewarderTokenSymbol
+          rewarderContract: rewarderContract
+          rewarderTokenId: rewarderTokenId
+          rewarderTokenName: rewarderTokenName
+          rewarderApr1d: 9.018348186070783
+          rewarderTokenDecimals: 6
+        vaultId: vaultId
+        liquidityRaw: 7
+        liquidityUsd: 1.1730742509559433
+        liquidity: liquidity
+        farmId: farmId
+        aptDecimals: 4
+        apr1d: 5.025004791520295
+        rewardsPerSec: 9.965781217890562
+      properties:
+        farmId:
+          title: Farmid
+          type: string
+        vaultId:
+          title: Vaultid
+          type: string
+        liquidity:
+          title: Liquidity
+          type: string
+        liquidityRaw:
+          title: Liquidityraw
+          type: integer
+        liquidityUsd:
+          title: Liquidityusd
+          type: number
+        aptDecimals:
+          title: Aptdecimals
+          type: integer
+        apr1d:
+          title: Apr1D
+          type: number
+        rewardsPerSec:
+          title: Rewardspersec
+          type: number
+        reward:
+          $ref: '#/components/schemas/GetReward'
+        rewarder:
+          $ref: '#/components/schemas/GetRewarder'
+      required:
+      - apr1d
+      - aptDecimals
+      - farmId
+      - liquidity
+      - liquidityRaw
+      - liquidityUsd
+      - reward
+      - rewardsPerSec
+      - vaultId
+      title: GetFarm
+      type: object
+    GetLBPairReward:
+      example:
+        tokenAddress: tokenAddress
+        amount: amount
+      properties:
+        amount:
+          title: Amount
+          type: string
+        tokenAddress:
+          title: Tokenaddress
+          type: string
+      required:
+      - amount
+      - tokenAddress
+      title: GetLBPairReward
+      type: object
+    GetPair:
+      example:
+        tokenY:
+          symbol: symbol
+          address: address
+          priceUsd: 6.027456183070403
+          priceNative: priceNative
+          decimals: 0
+          name: name
+        reserveY: 5.962133916683182
+        feesUsd: 1.4894159098541704
+        reserveX: 1.4658129805029452
+        chain: avalanche
+        activeBinId: 9
+        liquidityDepthPlus: 4.145608029883936
+        volumeUsd: 1.0246457001441578
+        feesNative: feesNative
+        lbBaseFeePct: 2.3021358869347655
+        version: v2.0
+        liquidityDepthMinus: 2.027123023002322
+        lbBinStep: 5
+        pairAddress: pairAddress
+        lbMaxFeePct: 7.061401241503109
+        liquidityNative: liquidityNative
+        liquidityDepthTokenX: 7.386281948385884
+        liquidityUsd: 3.616076749251911
+        liquidityDepthTokenY: 1.2315135367772556
+        name: name
+        protocolSharePct: 6.84685269835264
+        volumeNative: volumeNative
+        status: main
+        tokenX:
+          symbol: symbol
+          address: address
+          priceUsd: 6.027456183070403
+          priceNative: priceNative
+          decimals: 0
+          name: name
+      properties:
+        pairAddress:
+          title: Pairaddress
+          type: string
+        chain:
+          $ref: '#/components/schemas/Chain'
+        name:
+          title: Name
+          type: string
+        status:
+          $ref: '#/components/schemas/PairStatus'
+        version:
+          $ref: '#/components/schemas/PairVersion'
+        tokenX:
+          $ref: '#/components/schemas/TokenWrapper'
+        tokenY:
+          $ref: '#/components/schemas/TokenWrapper'
+        reserveX:
+          title: Reservex
+          type: number
+        reserveY:
+          title: Reservey
+          type: number
+        lbBinStep:
+          title: Lbbinstep
+          type: integer
+        lbBaseFeePct:
+          title: Lbbasefeepct
+          type: number
+        lbMaxFeePct:
+          title: Lbmaxfeepct
+          type: number
+        activeBinId:
+          title: Activebinid
+          type: integer
+        liquidityUsd:
+          title: Liquidityusd
+          type: number
+        liquidityNative:
+          title: Liquiditynative
+          type: string
+        liquidityDepthMinus:
+          title: Liquiditydepthminus
+          type: number
+        liquidityDepthPlus:
+          title: Liquiditydepthplus
+          type: number
+        liquidityDepthTokenX:
+          title: Liquiditydepthtokenx
+          type: number
+        liquidityDepthTokenY:
+          title: Liquiditydepthtokeny
+          type: number
+        volumeUsd:
+          title: Volumeusd
+          type: number
+        volumeNative:
+          title: Volumenative
+          type: string
+        feesUsd:
+          title: Feesusd
+          type: number
+        feesNative:
+          title: Feesnative
+          type: string
+        protocolSharePct:
+          title: Protocolsharepct
+          type: number
+      required:
+      - chain
+      - feesNative
+      - feesUsd
+      - lbBaseFeePct
+      - lbBinStep
+      - lbMaxFeePct
+      - liquidityDepthMinus
+      - liquidityDepthPlus
+      - liquidityDepthTokenX
+      - liquidityDepthTokenY
+      - liquidityNative
+      - liquidityUsd
+      - name
+      - pairAddress
+      - reserveX
+      - reserveY
+      - status
+      - tokenX
+      - tokenY
+      - version
+      - volumeNative
+      - volumeUsd
+      title: GetPair
+      type: object
+    GetProof:
+      example:
+        market: market
+        epoch: 0
+        token: token
+      properties:
+        market:
+          title: Market
+          type: string
+        epoch:
+          title: Epoch
+          type: integer
+        token:
+          title: Token
+          type: string
+      required:
+      - epoch
+      - market
+      - token
+      title: GetProof
+      type: object
+    GetProofBatch:
+      example:
+        batch:
+        - market: market
+          epoch: 0
+          token: token
+        - market: market
+          epoch: 0
+          token: token
+      properties:
+        batch:
+          items:
+            $ref: '#/components/schemas/GetProof'
+          title: Batch
+          type: array
+      required:
+      - batch
+      title: GetProofBatch
+      type: object
+    GetReward:
+      example:
+        symbol: symbol
+        decimals: 9
+        name: name
+        id: id
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Name
+          type: string
+        symbol:
+          title: Symbol
+          type: string
+        decimals:
+          title: Decimals
+          type: integer
+      required:
+      - decimals
+      - id
+      - name
+      - symbol
+      title: GetReward
+      type: object
+    GetRewarder:
+      example:
+        rewarderTokenPerSec: 8.762042012749001
+        rewarderTokenSymbol: rewarderTokenSymbol
+        rewarderContract: rewarderContract
+        rewarderTokenId: rewarderTokenId
+        rewarderTokenName: rewarderTokenName
+        rewarderApr1d: 9.018348186070783
+        rewarderTokenDecimals: 6
+      properties:
+        rewarderContract:
+          title: Rewardercontract
+          type: string
+        rewarderTokenId:
+          title: Rewardertokenid
+          type: string
+        rewarderTokenName:
+          title: Rewardertokenname
+          type: string
+        rewarderTokenSymbol:
+          title: Rewardertokensymbol
+          type: string
+        rewarderTokenDecimals:
+          title: Rewardertokendecimals
+          type: integer
+        rewarderTokenPerSec:
+          title: Rewardertokenpersec
+          type: number
+        rewarderApr1d:
+          title: Rewarderapr1D
+          type: number
+      required:
+      - rewarderApr1d
+      - rewarderContract
+      - rewarderTokenDecimals
+      - rewarderTokenId
+      - rewarderTokenName
+      - rewarderTokenPerSec
+      - rewarderTokenSymbol
+      title: GetRewarder
+      type: object
+    GetUserFarmPosition:
+      example:
+        pendingJoe: 0.8008281904610115
+        userPosition: userPosition
+        userPositionRaw: userPositionRaw
+        farmId: farmId
+        userPositionUsd: userPositionUsd
+      properties:
+        farmId:
+          title: Farmid
+          type: string
+        userPosition:
+          title: Userposition
+          type: string
+        userPositionRaw:
+          title: Userpositionraw
+          type: string
+        userPositionUsd:
+          title: Userpositionusd
+          type: string
+        pendingJoe:
+          title: Pendingjoe
+          type: number
+      required:
+      - farmId
+      - pendingJoe
+      - userPosition
+      - userPositionRaw
+      - userPositionUsd
+      title: GetUserFarmPosition
+      type: object
+    GetUserRewardHistoryResponse:
+      example:
+        progress: 5.962133916683182
+        epoch: 0
+        epochStart: 6
+        rewards:
+        - tokenAddress: tokenAddress
+          amount: amount
+        - tokenAddress: tokenAddress
+          amount: amount
+        epochEnd: 1
+      properties:
+        epoch:
+          title: Epoch
+          type: integer
+        epochStart:
+          title: Epochstart
+          type: integer
+        epochEnd:
+          title: Epochend
+          type: integer
+        progress:
+          title: Progress
+          type: number
+        rewards:
+          items:
+            $ref: '#/components/schemas/GetLBPairReward'
+          title: Rewards
+          type: array
+      required:
+      - epoch
+      - epochEnd
+      - epochStart
+      - progress
+      - rewards
+      title: GetUserRewardHistoryResponse
+      type: object
+    GetVault:
+      example:
+        tokenY:
+          symbol: symbol
+          chain: null
+          address: address
+          decimals: 5
+        feesUsd: 1.4894159098541704
+        tokenY7DayPerformance: 2.3021358869347655
+        chain: avalanche
+        address: address
+        pair:
+          chain: null
+          address: address
+          baseFeePct: 1.4658129805029452
+          binStep: 6
+          version: v2.0
+        hodl30Day5050Performance: 2.027123023002322
+        hodl5050Performance: 7.061401241503109
+        tokenX30DayPerformance: 9.301444243932576
+        tokenX7DayPerformance: 5.637376656633329
+        chainId: 0
+        name: name
+        farm:
+          reward:
+            symbol: symbol
+            decimals: 9
+            name: name
+            id: id
+          rewarder:
+            rewarderTokenPerSec: 8.762042012749001
+            rewarderTokenSymbol: rewarderTokenSymbol
+            rewarderContract: rewarderContract
+            rewarderTokenId: rewarderTokenId
+            rewarderTokenName: rewarderTokenName
+            rewarderApr1d: 9.018348186070783
+            rewarderTokenDecimals: 6
+          vaultId: vaultId
+          liquidityRaw: 7
+          liquidityUsd: 1.1730742509559433
+          liquidity: liquidity
+          farmId: farmId
+          aptDecimals: 4
+          apr1d: 5.025004791520295
+          rewardsPerSec: 9.965781217890562
+        tokenY30DayPerformance: 3.616076749251911
+        strategy:
+          aumAnnualFeePct: 4.145608029883936
+          chain: null
+          address: address
+        apr1d: 6.84685269835264
+        aptPrice: 7.386281948385884
+        apt1dPriceChange: 1.2315135367772556
+        tokenX:
+          symbol: symbol
+          chain: null
+          address: address
+          decimals: 5
+        tvlUsd: 1.0246457001441578
+      properties:
+        address:
+          title: Address
+          type: string
+        chain:
+          $ref: '#/components/schemas/Chain'
+        chainId:
+          title: Chainid
+          type: integer
+        name:
+          title: Name
+          type: string
+        pair:
+          $ref: '#/components/schemas/GetVaultPair'
+        tokenX:
+          $ref: '#/components/schemas/GetVaultToken'
+        tokenY:
+          $ref: '#/components/schemas/GetVaultToken'
+        tokenX7DayPerformance:
+          title: Tokenx7Dayperformance
+          type: number
+        tokenY7DayPerformance:
+          title: Tokeny7Dayperformance
+          type: number
+        hodl5050Performance:
+          title: Hodl5050Performance
+          type: number
+        tokenX30DayPerformance:
+          title: Tokenx30Dayperformance
+          type: number
+        tokenY30DayPerformance:
+          title: Tokeny30Dayperformance
+          type: number
+        hodl30Day5050Performance:
+          title: Hodl30Day5050Performance
+          type: number
+        strategy:
+          $ref: '#/components/schemas/GetVaultStrategy'
+        aptPrice:
+          title: Aptprice
+          type: number
+        apt1dPriceChange:
+          title: Apt1Dpricechange
+          type: number
+        tvlUsd:
+          title: Tvlusd
+          type: number
+        feesUsd:
+          title: Feesusd
+          type: number
+        apr1d:
+          title: Apr1D
+          type: number
+        farm:
+          $ref: '#/components/schemas/GetFarm'
+      required:
+      - address
+      - apr1d
+      - apt1dPriceChange
+      - chain
+      - chainId
+      - feesUsd
+      - hodl30Day5050Performance
+      - hodl5050Performance
+      - name
+      - pair
+      - tokenX
+      - tokenX30DayPerformance
+      - tokenX7DayPerformance
+      - tokenY
+      - tokenY30DayPerformance
+      - tokenY7DayPerformance
+      - tvlUsd
+      title: GetVault
+      type: object
+    GetVaultActivity:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        transactionHash: transactionHash
+        deposits:
+        - binId: 6
+          amountY: 5
+          amountX: 1
+        - binId: 6
+          amountY: 5
+          amountX: 1
+        timestamp: 0
+        withdrawals:
+        - binId: 6
+          amountY: 5
+          amountX: 1
+        - binId: 6
+          amountY: 5
+          amountX: 1
+      properties:
+        date:
+          format: date-time
+          title: Date
+          type: string
+        timestamp:
+          title: Timestamp
+          type: integer
+        transactionHash:
+          title: Transactionhash
+          type: string
+        deposits:
+          items:
+            $ref: '#/components/schemas/VaultBinActivity'
+          title: Deposits
+          type: array
+        withdrawals:
+          items:
+            $ref: '#/components/schemas/VaultBinActivity'
+          title: Withdrawals
+          type: array
+      required:
+      - date
+      - deposits
+      - timestamp
+      - transactionHash
+      - withdrawals
+      title: GetVaultActivity
+      type: object
+    GetVaultPair:
+      example:
+        chain: null
+        address: address
+        baseFeePct: 1.4658129805029452
+        binStep: 6
+        version: v2.0
+      properties:
+        address:
+          title: Address
+          type: string
+        chain:
+          $ref: '#/components/schemas/Chain'
+        version:
+          $ref: '#/components/schemas/PairVersion'
+        binStep:
+          title: Binstep
+          type: integer
+        baseFeePct:
+          title: Basefeepct
+          type: number
+      required:
+      - address
+      - baseFeePct
+      - binStep
+      - chain
+      - version
+      title: GetVaultPair
+      type: object
+    GetVaultStrategy:
+      example:
+        aumAnnualFeePct: 4.145608029883936
+        chain: null
+        address: address
+      properties:
+        address:
+          title: Address
+          type: string
+        chain:
+          $ref: '#/components/schemas/Chain'
+        aumAnnualFeePct:
+          title: Aumannualfeepct
+          type: number
+      required:
+      - address
+      - aumAnnualFeePct
+      - chain
+      title: GetVaultStrategy
+      type: object
+    GetVaultTVL:
+      example:
+        date: 2000-01-23T04:56:07.000+00:00
+        amountYUsd: 5.637376656633329
+        amountXUsd: 5.962133916683182
+        amountY: 1
+        timestamp: 0
+        amountX: 6
+        tvlUsd: 2.3021358869347655
+      properties:
+        date:
+          format: date-time
+          title: Date
+          type: string
+        timestamp:
+          title: Timestamp
+          type: integer
+        amountX:
+          title: Amountx
+          type: integer
+        amountY:
+          title: Amounty
+          type: integer
+        amountXUsd:
+          title: Amountxusd
+          type: number
+        amountYUsd:
+          title: Amountyusd
+          type: number
+        tvlUsd:
+          title: Tvlusd
+          type: number
+      required:
+      - amountX
+      - amountXUsd
+      - amountY
+      - amountYUsd
+      - date
+      - timestamp
+      - tvlUsd
+      title: GetVaultTVL
+      type: object
+    GetVaultToken:
+      example:
+        symbol: symbol
+        chain: null
+        address: address
+        decimals: 5
+      properties:
+        address:
+          title: Address
+          type: string
+        chain:
+          $ref: '#/components/schemas/Chain'
+        symbol:
+          title: Symbol
+          type: string
+        decimals:
+          title: Decimals
+          type: integer
+      required:
+      - address
+      - chain
+      - decimals
+      - symbol
+      title: GetVaultToken
+      type: object
+    GetVaultWithdrawal:
+      example:
+        vaultAddress: vaultAddress
+        userAddress: userAddress
+        shares: 6
+        chain: avalanche
+        round: 0
+      properties:
+        chain:
+          $ref: '#/components/schemas/Chain'
+        vaultAddress:
+          title: Vaultaddress
+          type: string
+        userAddress:
+          title: Useraddress
+          type: string
+        round:
+          title: Round
+          type: integer
+        shares:
+          title: Shares
+          type: integer
+      required:
+      - chain
+      - round
+      - shares
+      - userAddress
+      - vaultAddress
+      title: GetVaultWithdrawal
+      type: object
+    HTTPValidationError:
+      example:
+        detail:
+        - msg: msg
+          loc:
+          - Location_inner
+          - Location_inner
+          type: type
+        - msg: msg
+          loc:
+          - Location_inner
+          - Location_inner
+          type: type
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    HistoricalLpFeesEarned:
+      example:
+        userAddress: userAddress
+        shareVolumeTradedUsd: shareVolumeTradedUsd
+        accruedFeesL: accruedFeesL
+        accruedFeesX: accruedFeesX
+        accruedFeesY: accruedFeesY
+        shareVolumeTradedTokenY: shareVolumeTradedTokenY
+        volumeTradedTokenY: volumeTradedTokenY
+        shareVolumeTradedTokenX: shareVolumeTradedTokenX
+        volumeTradedTokenX: volumeTradedTokenX
+        volumeTradedUsd: volumeTradedUsd
+        accruedFeesUsd: accruedFeesUsd
+      properties:
+        userAddress:
+          title: Useraddress
+          type: string
+        accruedFeesX:
+          title: Accruedfeesx
+          type: string
+        accruedFeesY:
+          title: Accruedfeesy
+          type: string
+        accruedFeesL:
+          title: Accruedfeesl
+          type: string
+        accruedFeesUsd:
+          title: Accruedfeesusd
+          type: string
+        volumeTradedTokenX:
+          title: Volumetradedtokenx
+          type: string
+        volumeTradedTokenY:
+          title: Volumetradedtokeny
+          type: string
+        volumeTradedUsd:
+          title: Volumetradedusd
+          type: string
+        shareVolumeTradedTokenX:
+          title: Sharevolumetradedtokenx
+          type: string
+        shareVolumeTradedTokenY:
+          title: Sharevolumetradedtokeny
+          type: string
+        shareVolumeTradedUsd:
+          title: Sharevolumetradedusd
+          type: string
+      required:
+      - accruedFeesL
+      - accruedFeesUsd
+      - accruedFeesX
+      - accruedFeesY
+      - shareVolumeTradedTokenX
+      - shareVolumeTradedTokenY
+      - shareVolumeTradedUsd
+      - userAddress
+      - volumeTradedTokenX
+      - volumeTradedTokenY
+      - volumeTradedUsd
+      title: HistoricalLpFeesEarned
+      type: object
+    LeaderboardFeesSortType:
+      description: An enumeration.
+      enum:
+      - fees
+      title: Fees
+      type: string
+    LeaderboardSortType:
+      description: An enumeration.
+      oneOf:
+      - $ref: '#/components/schemas/VolumeParam'
+      - $ref: '#/components/schemas/LeaderboardFeesSortType'
+      title: LeaderboardSortType
+    PairStatus:
+      description: An enumeration.
+      enum:
+      - main
+      - old
+      title: PairStatus
+      type: string
+    PoolSortParam:
+      description: An enumeration.
+      enum:
+      - liquidity
+      - name
+      title: PoolSortParam
+      type: string
+    PoolSortType:
+      description: An enumeration.
+      oneOf:
+      - $ref: '#/components/schemas/PoolSortParam'
+      - $ref: '#/components/schemas/VolumeParam'
+      title: PoolSortType
+    QueryStatus:
+      description: An enumeration.
+      oneOf:
+      - $ref: '#/components/schemas/PairStatus'
+      - $ref: '#/components/schemas/AllParam'
+      title: QueryStatus
+    TokenWrapper:
+      example:
+        symbol: symbol
+        address: address
+        priceUsd: 6.027456183070403
+        priceNative: priceNative
+        decimals: 0
+        name: name
+      properties:
+        address:
+          title: Address
+          type: string
+        name:
+          title: Name
+          type: string
+        symbol:
+          title: Symbol
+          type: string
+        decimals:
+          title: Decimals
+          type: integer
+        priceUsd:
+          title: Priceusd
+          type: number
+        priceNative:
+          title: Pricenative
+          type: string
+      required:
+      - address
+      - decimals
+      - name
+      - priceNative
+      - priceUsd
+      - symbol
+      title: TokenWrapper
+      type: object
+    UserBinHistory:
+      example:
+        tokenY:
+          symbol: symbol
+          amount: 2.3021358869347655
+          address: address
+          priceUsd: 9.301444243932576
+          price: 7.061401241503109
+          decimals: 5
+          name: name
+          amountRaw: amountRaw
+        lbBinStep: 6.027456183070403
+        binId: 0
+        lbMaxFeePct: 5.962133916683182
+        blockNumber: 3
+        poolAddress: poolAddress
+        lbBaseFeePct: 1.4658129805029452
+        isDeposit: true
+        pairName: pairName
+        tokenX:
+          symbol: symbol
+          amount: 2.3021358869347655
+          address: address
+          priceUsd: 9.301444243932576
+          price: 7.061401241503109
+          decimals: 5
+          name: name
+          amountRaw: amountRaw
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        poolAddress:
+          title: Pooladdress
+          type: string
+        pairName:
+          title: Pairname
+          type: string
+        binId:
+          title: Binid
+          type: integer
+        lbBinStep:
+          title: Lbbinstep
+          type: number
+        lbBaseFeePct:
+          title: Lbbasefeepct
+          type: number
+        lbMaxFeePct:
+          title: Lbmaxfeepct
+          type: number
+        tokenX:
+          $ref: '#/components/schemas/UserBinPositionTokenWrapper'
+        tokenY:
+          $ref: '#/components/schemas/UserBinPositionTokenWrapper'
+        isDeposit:
+          title: Isdeposit
+          type: boolean
+        timestamp:
+          format: date-time
+          title: Timestamp
+          type: string
+        blockNumber:
+          title: Blocknumber
+          type: integer
+      required:
+      - binId
+      - blockNumber
+      - isDeposit
+      - lbBaseFeePct
+      - lbBinStep
+      - lbMaxFeePct
+      - pairName
+      - poolAddress
+      - timestamp
+      - tokenX
+      - tokenY
+      title: UserBinHistory
+      type: object
+    UserBinPositionTokenWrapper:
+      example:
+        symbol: symbol
+        amount: 2.3021358869347655
+        address: address
+        priceUsd: 9.301444243932576
+        price: 7.061401241503109
+        decimals: 5
+        name: name
+        amountRaw: amountRaw
+      properties:
+        address:
+          title: Address
+          type: string
+        name:
+          title: Name
+          type: string
+        symbol:
+          title: Symbol
+          type: string
+        decimals:
+          title: Decimals
+          type: integer
+        amount:
+          title: Amount
+          type: number
+        amountRaw:
+          title: Amountraw
+          type: string
+        price:
+          title: Price
+          type: number
+        priceUsd:
+          title: Priceusd
+          type: number
+      required:
+      - address
+      - amount
+      - amountRaw
+      - decimals
+      - name
+      - price
+      - symbol
+      title: UserBinPositionTokenWrapper
+      type: object
+    UserFeesEarnedPerBin:
+      example:
+        priceYX: 7.061401241503109
+        mostRecentDepositTime: 2000-01-23T04:56:07.000+00:00
+        accruedFeesL: 5.637376656633329
+        priceXY: 2.3021358869347655
+        binId: 0
+        accruedFeesX: 1.4658129805029452
+        accruedFeesY: 5.962133916683182
+        timestamp: 6
+      properties:
+        binId:
+          title: Binid
+          type: integer
+        mostRecentDepositTime:
+          format: date-time
+          title: Mostrecentdeposittime
+          type: string
+        timestamp:
+          title: Timestamp
+          type: integer
+        accruedFeesX:
+          title: Accruedfeesx
+          type: number
+        accruedFeesY:
+          title: Accruedfeesy
+          type: number
+        accruedFeesL:
+          title: Accruedfeesl
+          type: number
+        priceXY:
+          title: Pricexy
+          type: number
+        priceYX:
+          title: Priceyx
+          type: number
+      required:
+      - accruedFeesL
+      - accruedFeesX
+      - accruedFeesY
+      - binId
+      - mostRecentDepositTime
+      - priceXY
+      - priceYX
+      - timestamp
+      title: UserFeesEarnedPerBin
+      type: object
+    UserPoolPosition:
+      example:
+        tokenY:
+          symbol: symbol
+          address: address
+          priceUsd: 2.3021358869347655
+          decimals: 5
+          name: name
+        chain: chain
+        lbBinStep: 0.8008281904610115
+        lbMaxFeePct: 1.4658129805029452
+        binIds:
+        - 5
+        - 5
+        poolAddress: poolAddress
+        lbBaseFeePct: 6.027456183070403
+        pairName: pairName
+        version: v2.0
+        status: main
+        tokenX:
+          symbol: symbol
+          address: address
+          priceUsd: 2.3021358869347655
+          decimals: 5
+          name: name
+      properties:
+        poolAddress:
+          title: Pooladdress
+          type: string
+        pairName:
+          title: Pairname
+          type: string
+        status:
+          $ref: '#/components/schemas/PairStatus'
+        version:
+          $ref: '#/components/schemas/PairVersion'
+        chain:
+          title: Chain
+          type: string
+        lbBinStep:
+          title: Lbbinstep
+          type: number
+        lbBaseFeePct:
+          title: Lbbasefeepct
+          type: number
+        lbMaxFeePct:
+          title: Lbmaxfeepct
+          type: number
+        binIds:
+          items:
+            type: integer
+          title: Binids
+          type: array
+        tokenX:
+          $ref: '#/components/schemas/UserPoolPositionToken'
+        tokenY:
+          $ref: '#/components/schemas/UserPoolPositionToken'
+      required:
+      - binIds
+      - chain
+      - lbBaseFeePct
+      - lbBinStep
+      - lbMaxFeePct
+      - pairName
+      - poolAddress
+      - status
+      - tokenX
+      - tokenY
+      - version
+      title: UserPoolPosition
+      type: object
+    UserPoolPositionToken:
+      example:
+        symbol: symbol
+        address: address
+        priceUsd: 2.3021358869347655
+        decimals: 5
+        name: name
+      properties:
+        address:
+          title: Address
+          type: string
+        name:
+          title: Name
+          type: string
+        symbol:
+          title: Symbol
+          type: string
+        decimals:
+          title: Decimals
+          type: integer
+        priceUsd:
+          title: Priceusd
+          type: number
+      required:
+      - address
+      - decimals
+      - name
+      - priceUsd
+      - symbol
+      title: UserPoolPositionToken
+      type: object
+    ValidationError:
+      example:
+        msg: msg
+        loc:
+        - Location_inner
+        - Location_inner
+        type: type
+      properties:
+        loc:
+          items:
+            $ref: '#/components/schemas/Location_inner'
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+    VaultBinActivity:
+      example:
+        binId: 6
+        amountY: 5
+        amountX: 1
+      properties:
+        binId:
+          title: Binid
+          type: integer
+        amountX:
+          title: Amountx
+          type: integer
+        amountY:
+          title: Amounty
+          type: integer
+      required:
+      - amountX
+      - amountY
+      - binId
+      title: VaultBinActivity
+      type: object
+    VaultSharePrice:
+      example:
+        vaultAddress: vaultAddress
+        chain: avalanche
+        sharePrice: sharePrice
+        blockNumber: 0
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        chain:
+          $ref: '#/components/schemas/Chain'
+        vaultAddress:
+          title: Vaultaddress
+          type: string
+        blockNumber:
+          title: Blocknumber
+          type: integer
+        sharePrice:
+          title: Shareprice
+          type: string
+        timestamp:
+          format: date-time
+          title: Timestamp
+          type: string
+      required:
+      - blockNumber
+      - chain
+      - sharePrice
+      - timestamp
+      - vaultAddress
+      title: VaultSharePrice
+      type: object
+    PairVersion:
+      description: An enumeration.
+      enum:
+      - v2.0
+      - v2.1
+      - v2.2
+      title: PairVersion
+      type: string
+    PairVersionParam:
+      description: An enumeration.
+      oneOf:
+      - $ref: '#/components/schemas/PairVersion'
+      - $ref: '#/components/schemas/AllParam'
+      title: PairVersion
+    Location_inner:
+      anyOf:
+      - type: string
+      - type: integer
+    AllParam:
+      description: An enumeration
+      enum:
+      - all
+      title: All
+      type: string
+    VolumeParam:
+      description: An enumeration
+      enum:
+      - volume
+      title: Volume
+      type: string
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: x-traderjoe-api-key
+      type: apiKey
