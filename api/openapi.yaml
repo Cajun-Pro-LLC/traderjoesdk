@@ -2166,6 +2166,7 @@ components:
       - $ref: '#/components/schemas/VolumeParam'
       - $ref: '#/components/schemas/LeaderboardFeesSortType'
       title: LeaderboardSortType
+      type: string
     PairStatus:
       description: An enumeration.
       enum:
@@ -2589,6 +2590,7 @@ components:
       - $ref: '#/components/schemas/PairVersion'
       - $ref: '#/components/schemas/AllParam'
       title: PairVersion
+      type: string
     Location_inner:
       anyOf:
       - type: string

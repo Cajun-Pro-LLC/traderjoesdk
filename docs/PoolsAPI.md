@@ -35,7 +35,7 @@ func main() {
 	pageSize := int32(56) // int32 |  (optional) (default to 20)
 	pageNum := int32(56) // int32 |  (optional) (default to 1)
 	endTime := int32(56) // int32 |  (optional)
-	orderBy := openapiclient.LeaderboardSortType{LeaderboardFeesSortType: openapiclient.LeaderboardFeesSortType("fees")} // LeaderboardSortType |  (optional) (default to fees)
+	orderBy := openapiclient.LeaderboardSortType{LeaderboardFeesSortType: openapiclient.LeaderboardFeesSortType("fees")} // LeaderboardSortType |  (optional) (default to "fees")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -71,7 +71,7 @@ Name | Type | Description  | Notes
  **pageSize** | **int32** |  | [default to 20]
  **pageNum** | **int32** |  | [default to 1]
  **endTime** | **int32** |  | 
- **orderBy** | [**LeaderboardSortType**](LeaderboardSortType.md) |  | [default to fees]
+ **orderBy** | [**LeaderboardSortType**](LeaderboardSortType.md) |  | [default to &quot;fees&quot;]
 
 ### Return type
 
@@ -189,7 +189,7 @@ func main() {
 	orderBy := openapiclient.PoolSortType{PoolSortParam: openapiclient.PoolSortParam("liquidity")} // PoolSortType |  (optional) (default to volume)
 	filterBy := openapiclient.FilterType("1h") // FilterType |  (optional) (default to "1d")
 	status := openapiclient.QueryStatus{AllParam: openapiclient.AllParam("all")} // QueryStatus |  (optional) (default to all)
-	version := openapiclient.PairVersionParam{AllParam: openapiclient.AllParam("all")} // PairVersionParam |  (optional) (default to all)
+	version := openapiclient.PairVersionParam{AllParam: openapiclient.AllParam("all")} // PairVersionParam |  (optional) (default to "all")
 	excludeLowVolumePools := true // bool |  (optional) (default to true)
 
 	configuration := openapiclient.NewConfiguration()
@@ -225,7 +225,7 @@ Name | Type | Description  | Notes
  **orderBy** | [**PoolSortType**](PoolSortType.md) |  | [default to volume]
  **filterBy** | [**FilterType**](FilterType.md) |  | [default to &quot;1d&quot;]
  **status** | [**QueryStatus**](QueryStatus.md) |  | [default to all]
- **version** | [**PairVersionParam**](PairVersionParam.md) |  | [default to all]
+ **version** | [**PairVersionParam**](PairVersionParam.md) |  | [default to &quot;all&quot;]
  **excludeLowVolumePools** | **bool** |  | [default to true]
 
 ### Return type

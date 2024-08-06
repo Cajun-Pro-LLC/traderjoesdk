@@ -171,7 +171,8 @@ func (a *PoolsAPIService) GetHistoricalLiquidityProvidersExecute(r ApiGetHistori
 	if r.orderBy != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "orderBy", r.orderBy, "")
 	} else {
-		var defaultValue LeaderboardSortType = fees
+		f := FEES
+		var defaultValue LeaderboardSortType = LeaderboardFeesSortTypeAsLeaderboardSortType(&f)
 		r.orderBy = &defaultValue
 	}
 	// to determine the Content-Type header
@@ -499,7 +500,8 @@ func (a *PoolsAPIService) ListPoolsExecute(r ApiListPoolsRequest) ([]GetPair, *h
 	if r.orderBy != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "orderBy", r.orderBy, "")
 	} else {
-		var defaultValue PoolSortType = volume
+		v := VOLUME
+		var defaultValue PoolSortType = VolumeParamAsPoolSortType(&v)
 		r.orderBy = &defaultValue
 	}
 	if r.filterBy != nil {
@@ -511,13 +513,15 @@ func (a *PoolsAPIService) ListPoolsExecute(r ApiListPoolsRequest) ([]GetPair, *h
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "")
 	} else {
-		var defaultValue QueryStatus = all
+		all := ALL
+		var defaultValue QueryStatus = AllParamAsQueryStatus(&all)
 		r.status = &defaultValue
 	}
 	if r.version != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "version", r.version, "")
 	} else {
-		var defaultValue PairVersionParam = all
+		all := ALL
+		var defaultValue PairVersionParam = AllParamAsPairVersionParam(&all)
 		r.version = &defaultValue
 	}
 	if r.excludeLowVolumePools != nil {
